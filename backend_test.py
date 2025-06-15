@@ -6,7 +6,7 @@ import os
 from typing import Dict, List, Optional, Tuple
 
 # Get backend URL from frontend/.env
-BACKEND_URL = "https://e9b4dd7d-b3a8-44d3-b08e-bd05832659cc.preview.emergentagent.com/api"
+BACKEND_URL = "https://43fe7960-e639-4be9-87d1-a58599a0fd1b.preview.emergentagent.com/api"
 
 # Test data
 TEST_USER = {
