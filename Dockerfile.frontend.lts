@@ -1,16 +1,11 @@
-# Alternative Dockerfile with Node.js 20 LTS (for more stability)
 # Build stage
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Accept build arguments
+# Accept build arguments with defaults
 ARG REACT_APP_BACKEND_URL=http://localhost:8001
-ARG REACT_APP_MAPBOX_TOKEN
-
-# Set environment variables for build
-ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
-ENV REACT_APP_MAPBOX_TOKEN=$REACT_APP_MAPBOX_TOKEN
+ARG REACT_APP_MAPBOX_TOKEN=pk.placeholder_token_get_from_mapbox
 
 # Copy package files to the correct location
 COPY frontend/package.json frontend/yarn.lock ./
@@ -24,9 +19,10 @@ COPY frontend/public ./public
 COPY frontend/postcss.config.js ./
 COPY frontend/tailwind.config.js ./
 
-# Create environment file with build args
-RUN echo "REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL" > .env && \
-    echo "REACT_APP_MAPBOX_TOKEN=$REACT_APP_MAPBOX_TOKEN" >> .env
+# Copy existing .env file if present, otherwise create one
+COPY frontend/.env* ./
+RUN echo "REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}" > .env.production && \
+    echo "REACT_APP_MAPBOX_TOKEN=${REACT_APP_MAPBOX_TOKEN}" >> .env.production
 
 # Build the application
 RUN yarn build
