@@ -6,6 +6,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
+// Check if we have a valid Mapbox token
+const hasValidMapboxToken = MAPBOX_TOKEN && MAPBOX_TOKEN.startsWith('pk.') && !MAPBOX_TOKEN.includes('placeholder');
+
 const CustomerView = () => {
   const [viewState, setViewState] = useState({
     longitude: 10.0,
