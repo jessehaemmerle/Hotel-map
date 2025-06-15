@@ -2,6 +2,11 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0",
+    "yarn": ">=1.22.0"
+  },
   "dependencies": {
     "@types/mapbox-gl": "^3.4.1",
     "axios": "^1.8.4",
