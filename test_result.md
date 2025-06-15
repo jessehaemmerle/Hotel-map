@@ -219,3 +219,5 @@ agent_communication:
       message: "Implemented complete hotel mapping application with Mapbox integration, JWT authentication, geospatial search, and dual interfaces (customer/hotel owner). Ready for backend testing to verify all API endpoints work correctly."
     - agent: "testing"
       message: "Completed comprehensive testing of all backend API endpoints. Authentication system, hotel CRUD operations, geospatial search, and advanced filtering are all working correctly. All tests passed with 100% success rate. The backend is fully functional and ready for integration with the frontend."
+    - agent: "main"
+      message: "FIXED: Frontend container build errors resolved. Issue was missing .env files for both frontend and backend. Created environment files with proper configuration. Frontend builds successfully now. Added missing public files (manifest.json, favicon.ico, robots.txt). Ready for Mapbox token to enable full map functionality."
