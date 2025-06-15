@@ -222,6 +222,9 @@ case "${1:-}" in
     "dev")
         deploy_dev
         ;;
+    "dev-lts")
+        deploy_dev_lts
+        ;;
     "prod")
         deploy_prod
         ;;
@@ -243,7 +246,8 @@ case "${1:-}" in
         echo "Usage: $0 [command]"
         echo ""
         echo "Commands:"
-        echo "  dev      Deploy development environment"
+        echo "  dev      Deploy development environment (Node.js 21 latest)"
+        echo "  dev-lts  Deploy development environment (Node.js 20 LTS)" 
         echo "  prod     Deploy production environment"
         echo "  logs     Show service logs"
         echo "  stop     Stop all services"
@@ -251,7 +255,8 @@ case "${1:-}" in
         echo "  cleanup  Remove all containers and images"
         echo ""
         echo "Examples:"
-        echo "  $0 dev      # Deploy for development"
+        echo "  $0 dev      # Deploy with Node.js 21 (latest)"
+        echo "  $0 dev-lts  # Deploy with Node.js 20 LTS (stable)"
         echo "  $0 prod     # Deploy for production"
         echo "  $0 logs     # View logs"
         ;;
