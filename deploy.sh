@@ -212,6 +212,7 @@ cleanup() {
     if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
         print_status "Cleaning up..."
         docker-compose down -v --rmi all
+        docker-compose -f docker-compose.lts.yml down -v --rmi all
         docker-compose -f docker-compose.prod.yml down -v --rmi all
         docker system prune -f
         print_success "Cleanup complete"
