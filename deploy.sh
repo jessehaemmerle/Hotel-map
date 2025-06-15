@@ -200,6 +200,7 @@ show_logs() {
 stop_services() {
     print_status "Stopping all services..."
     docker-compose down
+    docker-compose -f docker-compose.lts.yml down
     docker-compose -f docker-compose.prod.yml down
     print_success "All services stopped"
 }
