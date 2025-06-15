@@ -84,6 +84,34 @@ deploy_dev() {
     print_status "  Frontend: http://localhost:3000"
     print_status "  Backend API: http://localhost:8001"
     print_status "  MongoDB: localhost:27017"
+    print_status "  Using: Node.js 21 (latest)"
+}
+
+# Function to deploy development environment with LTS
+deploy_dev_lts() {
+    print_status "Deploying development environment with Node.js 20 LTS..."
+    
+    # Stop existing containers
+    print_status "Stopping existing containers..."
+    docker-compose -f docker-compose.lts.yml down -v
+    
+    # Build and start services
+    print_status "Building and starting services..."
+    docker-compose -f docker-compose.lts.yml up --build -d
+    
+    # Wait for services to be healthy
+    print_status "Waiting for services to start..."
+    sleep 30
+    
+    # Check service health
+    check_health
+    
+    print_success "Development environment deployed successfully!"
+    print_status "Access your application at:"
+    print_status "  Frontend: http://localhost:3000"
+    print_status "  Backend API: http://localhost:8001"
+    print_status "  MongoDB: localhost:27017"
+    print_status "  Using: Node.js 20 LTS (stable)"
 }
 
 # Function to deploy production environment
