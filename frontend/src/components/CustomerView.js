@@ -259,122 +259,163 @@ const CustomerView = () => {
         </div>
       )}
 
-      {/* Map */}
-      <Map
-        {...viewState}
-        onMove={evt => setViewState(evt.viewState)}
-        mapboxAccessToken={MAPBOX_TOKEN}
-        style={{ width: '100%', height: '100%', marginTop: '72px' }}
-        mapStyle="mapbox://styles/mapbox/streets-v12"
-      >
-        {/* Hotel Markers */}
-        {hotels.map((hotel) => (
-          <Marker
-            key={hotel.id}
-            longitude={hotel.longitude}
-            latitude={hotel.latitude}
-            anchor="bottom"
-            onClick={e => {
-              e.originalEvent.stopPropagation();
-              setSelectedHotel(hotel);
-            }}
-          >
-            <div className="custom-marker">
-              €{hotel.price}
-            </div>
-          </Marker>
-        ))}
-
-        {/* Popup for selected hotel */}
-        {selectedHotel && (
-          <Popup
-            longitude={selectedHotel.longitude}
-            latitude={selectedHotel.latitude}
-            anchor="top"
-            onClose={() => setSelectedHotel(null)}
-            closeOnClick={false}
-          >
-            <div className="p-4 min-w-80">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{selectedHotel.name}</h3>
-                  <p className="text-sm text-gray-600">{selectedHotel.address}</p>
-                </div>
-                {selectedHotel.rating && (
-                  <div className="flex items-center bg-yellow-100 px-2 py-1 rounded">
-                    <span className="text-yellow-600 text-sm">⭐ {selectedHotel.rating}</span>
-                  </div>
-                )}
+      {/* Map or Placeholder */}
+      {hasValidMapboxToken ? (
+        <Map
+          {...viewState}
+          onMove={evt => setViewState(evt.viewState)}
+          mapboxAccessToken={MAPBOX_TOKEN}
+          style={{ width: '100%', height: '100%', marginTop: '72px' }}
+          mapStyle="mapbox://styles/mapbox/streets-v12"
+        >
+          {/* Hotel Markers */}
+          {hotels.map((hotel) => (
+            <Marker
+              key={hotel.id}
+              longitude={hotel.longitude}
+              latitude={hotel.latitude}
+              anchor="bottom"
+              onClick={e => {
+                e.originalEvent.stopPropagation();
+                setSelectedHotel(hotel);
+              }}
+            >
+              <div className="custom-marker">
+                €{hotel.price}
               </div>
+            </Marker>
+          ))}
 
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-blue-600">€{selectedHotel.price}</span>
-                  <span className="text-sm text-gray-500">per night</span>
+          {/* Popup for selected hotel */}
+          {selectedHotel && (
+            <Popup
+              longitude={selectedHotel.longitude}
+              latitude={selectedHotel.latitude}
+              anchor="top"
+              onClose={() => setSelectedHotel(null)}
+              closeOnClick={false}
+            >
+              <div className="p-4 min-w-80">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">{selectedHotel.name}</h3>
+                    <p className="text-sm text-gray-600">{selectedHotel.address}</p>
+                  </div>
+                  {selectedHotel.rating && (
+                    <div className="flex items-center bg-yellow-100 px-2 py-1 rounded">
+                      <span className="text-yellow-600 text-sm">⭐ {selectedHotel.rating}</span>
+                    </div>
+                  )}
                 </div>
 
-                {selectedHotel.description && (
-                  <p className="text-sm text-gray-700">{selectedHotel.description}</p>
-                )}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl font-bold text-blue-600">€{selectedHotel.price}</span>
+                    <span className="text-sm text-gray-500">per night</span>
+                  </div>
 
-                {selectedHotel.distance && (
-                  <p className="text-xs text-gray-500">
-                    📍 {Math.round(selectedHotel.distance / 1000)} km away
-                  </p>
-                )}
+                  {selectedHotel.description && (
+                    <p className="text-sm text-gray-700">{selectedHotel.description}</p>
+                  )}
 
-                {/* Home Office Amenities */}
-                {selectedHotel.home_office_amenities.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-1">🏠 Home Office Features</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {selectedHotel.home_office_amenities.map(amenity => (
-                        <span key={amenity} className="badge badge-success">
-                          {amenity}
-                        </span>
-                      ))}
+                  {selectedHotel.distance && (
+                    <p className="text-xs text-gray-500">
+                      📍 {Math.round(selectedHotel.distance / 1000)} km away
+                    </p>
+                  )}
+
+                  {/* Home Office Amenities */}
+                  {selectedHotel.home_office_amenities.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900 mb-1">🏠 Home Office Features</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {selectedHotel.home_office_amenities.map(amenity => (
+                          <span key={amenity} className="badge badge-success">
+                            {amenity}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* General Amenities */}
-                {selectedHotel.amenities.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-1">✨ Amenities</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {selectedHotel.amenities.slice(0, 6).map(amenity => (
-                        <span key={amenity} className="badge badge-primary">
-                          {amenity}
-                        </span>
-                      ))}
-                      {selectedHotel.amenities.length > 6 && (
-                        <span className="badge badge-primary">
-                          +{selectedHotel.amenities.length - 6} more
-                        </span>
-                      )}
+                  {/* General Amenities */}
+                  {selectedHotel.amenities.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900 mb-1">✨ Amenities</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {selectedHotel.amenities.slice(0, 6).map(amenity => (
+                          <span key={amenity} className="badge badge-primary">
+                            {amenity}
+                          </span>
+                        ))}
+                        {selectedHotel.amenities.length > 6 && (
+                          <span className="badge badge-primary">
+                            +{selectedHotel.amenities.length - 6} more
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {selectedHotel.booking_url && (
-                  <button
-                    onClick={() => openBookingUrl(selectedHotel)}
-                    className="w-full btn-primary py-2 px-4 rounded-lg text-white font-medium"
-                  >
-                    Book Now 🚀
-                  </button>
-                )}
+                  {selectedHotel.booking_url && (
+                    <button
+                      onClick={() => openBookingUrl(selectedHotel)}
+                      className="w-full btn-primary py-2 px-4 rounded-lg text-white font-medium"
+                    >
+                      Book Now 🚀
+                    </button>
+                  )}
 
-                {selectedHotel.phone && (
-                  <div className="text-sm text-gray-600">
-                    📞 {selectedHotel.phone}
-                  </div>
-                )}
+                  {selectedHotel.phone && (
+                    <div className="text-sm text-gray-600">
+                      📞 {selectedHotel.phone}
+                    </div>
+                  )}
+                </div>
               </div>
+            </Popup>
+          )}
+        </Map>
+      ) : (
+        // Map placeholder when no valid token
+        <div 
+          className="w-full h-full flex items-center justify-center bg-gray-100"
+          style={{ marginTop: '72px' }}
+        >
+          <div className="text-center p-8">
+            <div className="text-6xl mb-4">🗺️</div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Map Temporarily Unavailable</h3>
+            <p className="text-gray-500 mb-4">
+              The interactive map requires a Mapbox token to display properly.
+            </p>
+            <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+              <p className="text-sm text-blue-700">
+                <strong>For Developers:</strong> Add your Mapbox token to the REACT_APP_MAPBOX_TOKEN environment variable.
+              </p>
             </div>
-          </Popup>
-        )}
-      </Map>
+            {hotels.length > 0 && (
+              <div className="bg-white rounded-lg p-4 shadow">
+                <p className="text-sm text-gray-600 mb-2">
+                  <strong>{hotels.length} hotels found</strong> in this area
+                </p>
+                <div className="space-y-2">
+                  {hotels.slice(0, 3).map(hotel => (
+                    <div key={hotel.id} className="text-left border rounded p-2">
+                      <div className="font-medium">{hotel.name}</div>
+                      <div className="text-sm text-gray-500">€{hotel.price}/night</div>
+                    </div>
+                  ))}
+                  {hotels.length > 3 && (
+                    <div className="text-sm text-gray-500">
+                      ...and {hotels.length - 3} more hotels
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Results Summary */}
       <div className="absolute bottom-6 left-6 bg-white rounded-lg shadow-lg px-4 py-2">
