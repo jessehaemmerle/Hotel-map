@@ -51,7 +51,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile.frontend
+      dockerfile: Dockerfile.frontend  # Uses Node.js 21 (latest)
       args:
         - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8001}
         - REACT_APP_MAPBOX_TOKEN=${MAPBOX_ACCESS_TOKEN}
