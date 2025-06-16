@@ -49,8 +49,8 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
       args:
-        - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8001}
-        - REACT_APP_MAPBOX_TOKEN=${MAPBOX_ACCESS_TOKEN}
+        - REACT_APP_BACKEND_URL=http://localhost:8001
+        - REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ
     container_name: hotel-mapping-frontend-prod
     restart: always
     depends_on:
