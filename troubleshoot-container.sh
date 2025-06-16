@@ -75,7 +75,7 @@ echo "⚙️ ENVIRONMENT VARIABLES:"
 echo "Frontend .env content:"
 if [ -f "frontend/.env" ]; then
     grep -v "TOKEN" frontend/.env | head -5
-    echo "REACT_APP_MAPBOX_TOKEN=*** (hidden)"
+    echo "REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 else
     echo "❌ Frontend .env missing"
 fi
