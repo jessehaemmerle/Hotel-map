@@ -1,4 +1,4 @@
-# Debug Dockerfile for troubleshooting container health issues
+# Debug Dockerfile for troubleshooting container issues
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -92,10 +92,6 @@ EOF
 RUN chmod +x /startup.sh
 
 EXPOSE 3000
-
-# Simplified health check with debugging
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:3000 || (echo "Health check failed at $(date)" && exit 1)
 
 # Use debug startup script
 CMD ["/startup.sh"]

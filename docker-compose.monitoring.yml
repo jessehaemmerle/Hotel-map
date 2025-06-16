@@ -54,11 +54,6 @@ services:
       - backend
     networks:
       - hotel-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   # Monitoring stack
   prometheus:
