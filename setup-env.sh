@@ -21,7 +21,7 @@ cat > .env << EOF
 # Environment variables for Hotel Mapping Application - Docker Deployment
 
 # Mapbox Configuration (Required)
-MAPBOX_ACCESS_TOKEN=${MAPBOX_TOKEN}
+MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 
 # Backend Configuration for Docker
 JWT_SECRET=${JWT_SECRET}
@@ -48,7 +48,7 @@ echo -e "${BLUE}[INFO]${NC} Creating frontend .env.docker file..."
 cat > frontend/.env.docker << EOF
 # Frontend environment variables for Docker deployment
 REACT_APP_BACKEND_URL=http://localhost:8001
-REACT_APP_MAPBOX_TOKEN=${MAPBOX_TOKEN}
+REACT_APP_MAPBOX_TOKEN="pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 WDS_SOCKET_PORT=443
 EOF
 
@@ -61,7 +61,7 @@ cat > backend/.env.docker << EOF
 # Backend environment variables for Docker deployment
 MONGO_URL=mongodb://mongodb:27017
 DB_NAME=hotel_mapping
-MAPBOX_ACCESS_TOKEN=${MAPBOX_TOKEN}
+MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 JWT_SECRET=${JWT_SECRET}
 EOF
 
@@ -73,14 +73,14 @@ echo -e "${BLUE}[INFO]${NC} Updating current development .env files..."
 cat > frontend/.env << EOF
 WDS_SOCKET_PORT=443
 REACT_APP_BACKEND_URL=http://localhost:8001
-REACT_APP_MAPBOX_TOKEN=${MAPBOX_TOKEN}
+REACT_APP_MAPBOX_TOKEN="pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 EOF
 
 # Update current backend .env for development
 cat > backend/.env << EOF
 MONGO_URL="mongodb://localhost:27017"
 DB_NAME="hotel_mapping"
-MAPBOX_ACCESS_TOKEN="${MAPBOX_TOKEN}"
+MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 JWT_SECRET="${JWT_SECRET}"
 EOF
 
