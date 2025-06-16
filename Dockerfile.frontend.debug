@@ -77,7 +77,7 @@ echo "=== WAITING FOR NGINX ==="
 sleep 5
 
 echo "=== TESTING HEALTH ENDPOINT ==="
-curl -v http://localhost:3000/health || echo "Health check failed"
+curl -v http://localhost:3000 || echo "Health check failed"
 
 echo "=== TESTING ROOT ENDPOINT ==="
 curl -I http://localhost:3000/ || echo "Root endpoint failed"
