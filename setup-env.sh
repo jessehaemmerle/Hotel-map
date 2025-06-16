@@ -72,7 +72,7 @@ echo -e "${BLUE}[INFO]${NC} Updating current development .env files..."
 # Update current frontend .env for development
 cat > frontend/.env << EOF
 WDS_SOCKET_PORT=443
-REACT_APP_BACKEND_URL=https://43fe7960-e639-4be9-87d1-a58599a0fd1b.preview.emergentagent.com
+REACT_APP_BACKEND_URL=http://localhost:8001
 REACT_APP_MAPBOX_TOKEN=${MAPBOX_TOKEN}
 EOF
 
