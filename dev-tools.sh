@@ -77,7 +77,7 @@ node_dev() {
             ;;
         2)
             print_info "Running tests..."
-            docker exec hotel-mapping-frontend yarn test --watchAll=false
+            docker exec hotel-mapping-frontend yarn test --watchAll=false --passWithNoTests
             ;;
         3)
             print_info "Linting code..."

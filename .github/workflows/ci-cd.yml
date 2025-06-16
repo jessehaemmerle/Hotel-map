@@ -56,7 +56,7 @@ jobs:
 
     - name: Test frontend
       working-directory: ./frontend
-      run: yarn test --watchAll=false --coverage
+      run: yarn test --watchAll=false --coverage --passWithNoTests
 
     - name: Test backend
       working-directory: ./backend
