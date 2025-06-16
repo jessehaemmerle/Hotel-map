@@ -27,7 +27,7 @@ done
 echo ""
 echo "🔧 Environment Configuration:"
 echo "REACT_APP_BACKEND_URL: $(grep REACT_APP_BACKEND_URL frontend/.env || echo 'Not set')"
-echo "REACT_APP_MAPBOX_TOKEN: $(grep REACT_APP_MAPBOX_TOKEN frontend/.env | cut -d'=' -f1)=*** (hidden)"
+echo "REACT_APP_MAPBOX_TOKEN: pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 
 echo ""
 echo "📦 Frontend Dependencies:"
@@ -84,7 +84,7 @@ echo "✅ Shorter timeout (10s) to avoid hanging"
 echo ""
 echo "🌐 Application URLs:"
 echo "Development: http://localhost:3000"
-echo "Health check: http://localhost:3000/health"
+echo "Health check: http://localhost:3000/"
 echo "API proxy: http://localhost:3000/api/*"
 
 echo ""

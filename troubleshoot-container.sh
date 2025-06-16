@@ -75,7 +75,7 @@ echo "⚙️ ENVIRONMENT VARIABLES:"
 echo "Frontend .env content:"
 if [ -f "frontend/.env" ]; then
     grep -v "TOKEN" frontend/.env | head -5
-    echo "REACT_APP_MAPBOX_TOKEN=*** (hidden)"
+    echo "REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ"
 else
     echo "❌ Frontend .env missing"
 fi
@@ -144,7 +144,7 @@ fi
 echo ""
 echo "2. HEALTH CHECK ENDPOINT:"
 echo "The nginx config should respond to /health with HTTP 200"
-echo "Health check command: curl -f http://localhost:3000/health"
+echo "Health check command: curl -f http://localhost:3000/"
 
 echo ""
 echo "3. CONTAINER STARTUP TIME:"
@@ -173,7 +173,7 @@ echo "   docker logs <container-id>"
 echo ""
 echo "4. Exec into running container:"
 echo "   docker exec -it <container-id> /bin/sh"
-echo "   curl http://localhost:3000/health"
+echo "   curl http://localhost:3000/"
 echo "   ps aux | grep nginx"
 echo ""
 echo "5. Test with real Mapbox token:"

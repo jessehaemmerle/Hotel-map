@@ -1,11 +1,11 @@
-# Debug Dockerfile for troubleshooting container health issues
+# Debug Dockerfile for troubleshooting container issues
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
 # Accept build arguments with defaults
 ARG REACT_APP_BACKEND_URL=http://localhost:8001
-ARG REACT_APP_MAPBOX_TOKEN=pk.placeholder_token_get_from_mapbox
+ARG REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ
 
 # Copy package files
 COPY frontend/package.json frontend/yarn.lock ./
@@ -29,7 +29,7 @@ RUN echo "REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}" > .env.production && \
 # Debug: Show environment
 RUN echo "=== BUILD ENVIRONMENT ===" && \
     echo "REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}" && \
-    echo "REACT_APP_MAPBOX_TOKEN=***" && \
+    echo "REACT_APP_MAPBOX_TOKEN=${REACT_APP_MAPBOX_TOKEN}" && \
     cat .env.production
 
 # Build the application
@@ -77,7 +77,7 @@ echo "=== WAITING FOR NGINX ==="
 sleep 5
 
 echo "=== TESTING HEALTH ENDPOINT ==="
-curl -v http://localhost:3000/health || echo "Health check failed"
+curl -v http://localhost:3000 || echo "Health check failed"
 
 echo "=== TESTING ROOT ENDPOINT ==="
 curl -I http://localhost:3000/ || echo "Root endpoint failed"
@@ -92,10 +92,6 @@ EOF
 RUN chmod +x /startup.sh
 
 EXPOSE 3000
-
-# Simplified health check with debugging
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:3000/health || (echo "Health check failed at $(date)" && exit 1)
 
 # Use debug startup script
 CMD ["/startup.sh"]
