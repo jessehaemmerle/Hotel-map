@@ -49,7 +49,7 @@ RUN apk add --no-cache curl
 
 # Improved health check with fallbacks and better timeouts
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=5 \
-    CMD curl -f http://localhost:3000/health || curl -f http://localhost:3000/ || exit 1
+    CMD curl -f http://localhost:3000/ || exit 1
 ```
 
 **Key Improvements:**
@@ -116,7 +116,6 @@ docker run -p 3000:3000 hotel-frontend
 ### 4. Health Check Verification
 ```bash
 # Test health endpoints
-curl http://localhost:3000/health
 curl http://localhost:3000/
 ```
 
@@ -152,13 +151,12 @@ docker build -f Dockerfile.frontend \
 - **Start Period**: 30 seconds before first check
 - **Retries**: 5 attempts before marking unhealthy
 
-### Health Check URLs (in order of preference)
-1. `http://localhost:3000/health` - Dedicated health endpoint
-2. `http://localhost:3000/` - Main application endpoint
+### Health Check URL
+`http://localhost:3000/` - Main application endpoint
 
 ### Health Check Command
 ```bash
-curl -f http://localhost:3000/health || curl -f http://localhost:3000/ || exit 1
+curl -f http://localhost:3000/ || exit 1
 ```
 
 ## 📁 File Structure After Fix
@@ -205,7 +203,7 @@ curl -f http://localhost:3000/health || curl -f http://localhost:3000/ || exit 1
 ```bash
 docker ps  # Check container status
 docker logs container-name  # Check container logs
-docker exec -it container-name curl http://localhost:3000/health  # Manual health check
+docker exec -it container-name curl http://localhost:3000/  # Manual health check
 ```
 
 ### Debug Container Issues

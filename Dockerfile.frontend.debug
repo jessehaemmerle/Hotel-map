@@ -77,7 +77,7 @@ echo "=== WAITING FOR NGINX ==="
 sleep 5
 
 echo "=== TESTING HEALTH ENDPOINT ==="
-curl -v http://localhost:3000/health || echo "Health check failed"
+curl -v http://localhost:3000 || echo "Health check failed"
 
 echo "=== TESTING ROOT ENDPOINT ==="
 curl -I http://localhost:3000/ || echo "Root endpoint failed"
@@ -95,7 +95,7 @@ EXPOSE 3000
 
 # Simplified health check with debugging
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:3000/health || (echo "Health check failed at $(date)" && exit 1)
+    CMD curl -f http://localhost:3000 || (echo "Health check failed at $(date)" && exit 1)
 
 # Use debug startup script
 CMD ["/startup.sh"]

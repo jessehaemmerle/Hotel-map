@@ -84,7 +84,7 @@ echo "✅ Shorter timeout (10s) to avoid hanging"
 echo ""
 echo "🌐 Application URLs:"
 echo "Development: http://localhost:3000"
-echo "Health check: http://localhost:3000/health"
+echo "Health check: http://localhost:3000/"
 echo "API proxy: http://localhost:3000/api/*"
 
 echo ""
