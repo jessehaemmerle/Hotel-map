@@ -240,11 +240,11 @@ deploy_prod() {
     
     # Stop existing containers
     print_status "Stopping existing containers..."
-    docker-compose -f docker-compose.prod.yml down -v
+    run_docker_compose -f docker-compose.prod.yml down -v
     
     # Build and start services
     print_status "Building and starting services..."
-    docker-compose -f docker-compose.prod.yml up --build -d
+    run_docker_compose -f docker-compose.prod.yml up --build -d
     
     # Wait for services to be healthy
     print_status "Waiting for services to start..."
