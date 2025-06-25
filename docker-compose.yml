@@ -58,7 +58,7 @@ services:
     container_name: hotel-mapping-frontend
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "7070:7070"
     depends_on:
       backend:
         condition: service_healthy
