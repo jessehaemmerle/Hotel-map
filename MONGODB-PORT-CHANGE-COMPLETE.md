@@ -95,7 +95,7 @@ For Docker deployment, the configuration automatically handles:
 
 ## ✅ **READY FOR USE**
 
-Your MongoDB database is now running on port **27012** and all services have been updated accordingly. The application is fully functional with the new port configuration.
+Your MongoDB database is now running on port **27013** and all services have been updated accordingly. The application is fully functional with the new port configuration.
 
 **Commands to verify:**
 ```bash
