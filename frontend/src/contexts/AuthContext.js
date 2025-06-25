@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
 
   const fetchCurrentUser = async () => {
     try {
-      console.log('Fetching current user with token:', token);
       const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -35,13 +34,10 @@ export const AuthProvider = ({ children }) => {
         },
       });
 
-      console.log('Response status:', response.status);
       if (response.ok) {
         const userData = await response.json();
-        console.log('User data received:', userData);
         setUser(userData);
       } else {
-        console.log('Failed to fetch user, removing token');
         localStorage.removeItem('token');
         setToken(null);
         setUser(null);
