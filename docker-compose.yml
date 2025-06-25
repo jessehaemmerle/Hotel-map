@@ -53,8 +53,8 @@ services:
       context: .
       dockerfile: Dockerfile.frontend  # Uses Node.js 21 (latest)
       args:
-        - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8001}
-        - REACT_APP_MAPBOX_TOKEN=${MAPBOX_ACCESS_TOKEN}
+        - REACT_APP_BACKEND_URL=http://localhost:7070
+        - REACT_APP_MAPBOX_TOKEN=${MAPBOX_ACCESS_TOKEN:-pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbWNibHBhYmQwMHIwMmpxcnp1cjhlYXNnIn0.t8cTZhYHQ5Bz3919BwJlLQ}
     container_name: hotel-mapping-frontend
     restart: unless-stopped
     ports:
