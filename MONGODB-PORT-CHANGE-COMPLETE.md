@@ -69,13 +69,13 @@ After deployment, your services will be available at:
 
 - **Frontend**: http://localhost:7070
 - **Backend API**: http://localhost:8001
-- **MongoDB**: localhost:27012
+- **MongoDB**: localhost:27013
 - **API Documentation**: http://localhost:8001/docs
 
 ## 🐳 **DOCKER DEPLOYMENT**
 
 For Docker deployment, the configuration automatically handles:
-- **Host Access**: MongoDB accessible on port 27012
+- **Host Access**: MongoDB accessible on port 27013
 - **Container Network**: Internal services use port 27017
 - **Backend Connection**: Connects via container networking
 
