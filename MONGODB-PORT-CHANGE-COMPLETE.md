@@ -48,13 +48,13 @@ command=/usr/bin/mongod --bind_ip_all --port 27013
 ## 🚀 **VERIFICATION RESULTS**
 
 ### **Local Services Status:**
-- ✅ **MongoDB**: Running on port 27012
-- ✅ **Backend**: Connected to MongoDB on port 27012
+- ✅ **MongoDB**: Running on port 27013
+- ✅ **Backend**: Connected to MongoDB on port 27013
 - ✅ **Frontend**: Running on port 7070
 - ✅ **API**: Working correctly with new database port
 
 ### **Connection Tests:**
-- ✅ **Direct MongoDB**: `mongosh --port 27012` works
+- ✅ **Direct MongoDB**: `mongosh --port 27013` works
 - ✅ **Backend API**: `curl http://localhost:8001/api/hotels` works
 - ✅ **Frontend**: `curl http://localhost:7070` works
 
