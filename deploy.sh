@@ -186,11 +186,11 @@ deploy_dev() {
     
     # Stop existing containers
     print_status "Stopping existing containers..."
-    docker-compose down -v
+    run_docker_compose down -v
     
     # Build and start services
     print_status "Building and starting services..."
-    docker-compose up --build -d
+    run_docker_compose up --build -d
     
     # Wait for services to be healthy
     print_status "Waiting for services to start..."
