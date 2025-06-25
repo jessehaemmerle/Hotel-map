@@ -4,14 +4,16 @@ FROM node:21-alpine AS builder
 WORKDIR /app
 
 # Accept build arguments with defaults
-ARG REACT_APP_BACKEND_URL=http://localhost:8001
-ARG REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ
+ARG REACT_APP_BACKEND_URL=http://localhost:7070
+ARG REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbWNibHBhYmQwMHIwMmpxcnp1cjhlYXNnIn0.t8cTZhYHQ5Bz3919BwJlLQ
 
 # Copy package files to the correct location
 COPY frontend/package.json frontend/yarn.lock ./
 
-# Install dependencies
-RUN yarn install --frozen-lockfile
+# Install dependencies with multiple fallback strategies
+RUN yarn install --frozen-lockfile --network-timeout 300000 || \
+    (echo "Frozen lockfile failed, trying cache clean..." && yarn cache clean && yarn install --frozen-lockfile) || \
+    (echo "Still failing, regenerating lockfile..." && rm yarn.lock && yarn install)
 
 # Copy all frontend source code
 COPY frontend/src ./src
