@@ -81,7 +81,7 @@ deploy_dev() {
     
     print_success "Development environment deployed successfully!"
     print_status "Access your application at:"
-    print_status "  Frontend: http://localhost:3000"
+    print_status "  Frontend: http://localhost:7070"
     print_status "  Backend API: http://localhost:8001"
     print_status "  MongoDB: localhost:27017"
     print_status "  Using: Node.js 21 (latest)"
