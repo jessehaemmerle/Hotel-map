@@ -100,7 +100,7 @@ Your MongoDB database is now running on port **27012** and all services have bee
 **Commands to verify:**
 ```bash
 # Test MongoDB directly
-mongosh --port 27012
+mongosh --port 27013
 
 # Test backend API
 curl http://localhost:8001/api/hotels
