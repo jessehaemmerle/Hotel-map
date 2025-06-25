@@ -36,7 +36,7 @@ MONGO_URL=mongodb://localhost:27013
 command=/usr/bin/mongod --bind_ip_all
 
 # AFTER
-command=/usr/bin/mongod --bind_ip_all --port 27012
+command=/usr/bin/mongod --bind_ip_all --port 27013
 ```
 
 ### 4. **Documentation Updated**
