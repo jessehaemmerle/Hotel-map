@@ -70,7 +70,7 @@ After deployment, your application will be available at:
 
 - **Frontend**: http://localhost:7070
 - **Backend API**: http://localhost:8001
-- **MongoDB**: localhost:27012
+- **MongoDB**: localhost:27013
 - **API Documentation**: http://localhost:8001/docs
 - **MongoDB**: localhost:27017
 
