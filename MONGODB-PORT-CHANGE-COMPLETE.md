@@ -83,14 +83,14 @@ For Docker deployment, the configuration automatically handles:
 
 ### **Port Mapping Explanation:**
 ```
-27012:27017
+27013:27017
 ^     ^
 |     └── Internal container port (MongoDB default)
 └── External host port (your requested port)
 ```
 
 ### **Environment Variables:**
-- **Local Development**: Uses `localhost:27012`
+- **Local Development**: Uses `localhost:27013`
 - **Docker Containers**: Uses `mongodb:27017` (internal networking)
 
 ## ✅ **READY FOR USE**
