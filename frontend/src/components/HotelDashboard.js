@@ -10,12 +10,6 @@ const HotelDashboard = () => {
   const [editingHotel, setEditingHotel] = useState(null);
   const { user, logout, token } = useAuth();
 
-  console.log('HotelDashboard rendered, user:', user, 'token:', token);
-  
-  // Add debugging for React 18 compatibility
-  console.log('React version:', React.version);
-  console.log('Current component state:', { activeTab, hotels, loading, editingHotel });
-
   const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
