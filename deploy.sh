@@ -158,7 +158,7 @@ check_health() {
     fi
     
     # Check Frontend
-    if curl -f http://localhost:3000 >/dev/null 2>&1; then
+    if curl -f http://localhost:7070 >/dev/null 2>&1; then
         print_success "Frontend is healthy"
     else
         print_error "Frontend is not healthy"
