@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import CustomerView from './components/CustomerView';
 import HotelDashboard from './components/HotelDashboard';
 import HotelDashboardDebug from './components/HotelDashboardDebug';
+import DiagnosticTest from './components/DiagnosticTest';
 import Login from './components/Login';
 import Register from './components/Register';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
