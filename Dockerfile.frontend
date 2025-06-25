@@ -8,10 +8,11 @@ ARG REACT_APP_BACKEND_URL=http://localhost:8001
 ARG REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcDMyM3JwbnR5eXFlYXVuIn0.IkkPG8K1H5MtkAaQI9sitQ
 
 # Copy package files to the correct location
-COPY frontend/package.json frontend/yarn.lock ./
+COPY frontend/package.json ./
+COPY frontend/yarn.lock ./
 
-# Clear yarn cache and install dependencies
-RUN yarn cache clean && yarn install --frozen-lockfile
+# Install dependencies with proper handling
+RUN yarn install --network-timeout 300000
 
 # Copy all frontend source code
 COPY frontend/src ./src
