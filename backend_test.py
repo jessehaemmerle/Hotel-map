@@ -6,7 +6,7 @@ import os
 from typing import Dict, List, Optional, Tuple
 
 # Get backend URL from frontend/.env
-BACKEND_URL = "http://localhost:8001/api"
+BACKEND_URL = "http://localhost:7070/api"
 
 # Test data
 TEST_USER = {
