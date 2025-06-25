@@ -4,7 +4,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Accept build arguments with defaults
-ARG REACT_APP_BACKEND_URL=http://localhost:7070
+ARG REACT_APP_BACKEND_URL=http://hotel-mapping-backend:8001
 ARG REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbWNibHBhYmQwMHIwMmpxcnp1cjhlYXNnIn0.t8cTZhYHQ5Bz3919BwJlLQ
 
 # Copy package files to the correct location
