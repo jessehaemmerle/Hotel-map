@@ -30,16 +30,124 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Function to install Docker
+install_docker() {
+    print_status "Docker not found. Installing Docker..."
+    
+    # Check if get-docker.sh exists
+    if [[ -f "./get-docker.sh" ]]; then
+        print_status "Using local Docker installation script..."
+        chmod +x ./get-docker.sh
+        if sudo ./get-docker.sh; then
+            print_success "Docker installed successfully!"
+        else
+            print_error "Failed to install Docker using local script"
+            exit 1
+        fi
+    else
+        # Download and run official Docker installation script
+        print_status "Downloading official Docker installation script..."
+        if curl -fsSL https://get.docker.com -o install-docker.sh; then
+            print_status "Running Docker installation..."
+            if sudo sh install-docker.sh; then
+                print_success "Docker installed successfully!"
+                rm install-docker.sh
+            else
+                print_error "Failed to install Docker"
+                rm install-docker.sh
+                exit 1
+            fi
+        else
+            print_error "Failed to download Docker installation script"
+            exit 1
+        fi
+    fi
+    
+    # Add current user to docker group
+    print_status "Adding current user to docker group..."
+    sudo usermod -aG docker $USER || true
+    
+    # Start Docker service
+    print_status "Starting Docker service..."
+    sudo systemctl enable docker
+    sudo systemctl start docker
+    
+    print_warning "You may need to log out and back in for Docker group changes to take effect"
+    print_warning "Or run: newgrp docker"
+}
+
+# Function to install Docker Compose
+install_docker_compose() {
+    print_status "Docker Compose not found. Installing Docker Compose..."
+    
+    # Check if it's the new docker compose plugin
+    if docker compose version &> /dev/null; then
+        print_success "Docker Compose plugin is already available"
+        return 0
+    fi
+    
+    # Install docker-compose-plugin if using newer Docker versions
+    if command -v docker &> /dev/null; then
+        DOCKER_VERSION=$(docker --version | cut -d' ' -f3 | cut -d',' -f1)
+        print_status "Detected Docker version: $DOCKER_VERSION"
+        
+        # For newer Docker versions, try to install compose plugin
+        if [[ -f /etc/debian_version ]]; then
+            print_status "Installing Docker Compose plugin for Debian/Ubuntu..."
+            sudo apt-get update
+            sudo apt-get install -y docker-compose-plugin
+        elif [[ -f /etc/redhat-release ]]; then
+            print_status "Installing Docker Compose plugin for RedHat/CentOS..."
+            if command -v dnf &> /dev/null; then
+                sudo dnf install -y docker-compose-plugin
+            else
+                sudo yum install -y docker-compose-plugin
+            fi
+        else
+            # Fallback: install standalone docker-compose
+            print_status "Installing standalone Docker Compose..."
+            COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -Po '"tag_name": "\K.*\d')
+            sudo curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+        fi
+        
+        print_success "Docker Compose installed successfully!"
+    else
+        print_error "Docker must be installed before Docker Compose"
+        exit 1
+    fi
+}
+
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
-    print_error "Docker is not installed. Please install Docker first."
-    exit 1
+    print_warning "Docker is not installed."
+    read -p "Would you like to install Docker automatically? (y/N): " install_docker_choice
+    case $install_docker_choice in
+        [yY]|[yY][eE][sS])
+            install_docker
+            ;;
+        *)
+            print_error "Docker is required for deployment. Please install Docker first."
+            print_status "You can install Docker manually by running: curl -fsSL https://get.docker.com | sh"
+            exit 1
+            ;;
+    esac
 fi
 
 # Check if Docker Compose is installed
-if ! command -v docker-compose &> /dev/null; then
-    print_error "Docker Compose is not installed. Please install Docker Compose first."
-    exit 1
+if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
+    print_warning "Docker Compose is not installed."
+    read -p "Would you like to install Docker Compose automatically? (y/N): " install_compose_choice
+    case $install_compose_choice in
+        [yY]|[yY][eE][sS])
+            install_docker_compose
+            ;;
+        *)
+            print_error "Docker Compose is required for deployment. Please install Docker Compose first."
+            print_status "You can install Docker Compose manually from: https://docs.docker.com/compose/install/"
+            exit 1
+            ;;
+    esac
 fi
 
 # Check for .env file
