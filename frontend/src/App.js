@@ -38,7 +38,7 @@ function AppContent() {
       <Route path="/register" element={<Register />} />
       <Route 
         path="/dashboard" 
-        element={user ? <HotelDashboard /> : <Navigate to="/login" />} 
+        element={user ? <HotelDashboardDebug /> : <Navigate to="/login" />} 
       />
     </Routes>
   );
