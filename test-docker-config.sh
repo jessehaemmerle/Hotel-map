@@ -74,6 +74,13 @@ else
     exit 1
 fi
 
+if grep -q "27012:27017" docker-compose.yml; then
+    echo "✅ MongoDB port 27012 configured"
+else
+    echo "❌ MongoDB port 27012 not configured"
+    exit 1
+fi
+
 echo ""
 echo "🎉 All Docker configuration checks passed!"
 echo ""
