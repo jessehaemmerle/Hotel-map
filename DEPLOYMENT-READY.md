@@ -102,7 +102,7 @@ After deployment, your application will be available at:
 - **Backend**: FastAPI, MongoDB, JWT authentication
 - **Database**: MongoDB with geospatial indexing
 - **Docker**: Multi-container setup with nginx proxy
-- **Ports**: Frontend (7070), Backend (8001), MongoDB (27012)
+- **Ports**: Frontend (7070), Backend (8001), MongoDB (27013)
 
 ## ✅ VERIFICATION STATUS
 
