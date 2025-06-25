@@ -159,6 +159,18 @@ if [[ ! -f .env ]]; then
     exit 1
 fi
 
+# Function to run docker-compose with proper command
+run_docker_compose() {
+    if command -v docker-compose &> /dev/null; then
+        docker-compose "$@"
+    elif docker compose version &> /dev/null; then
+        docker compose "$@"
+    else
+        print_error "Neither docker-compose nor docker compose is available"
+        exit 1
+    fi
+}
+
 # Load environment variables
 source .env
 
