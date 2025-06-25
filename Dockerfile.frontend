@@ -11,7 +11,7 @@ ARG REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcD
 COPY frontend/package.json frontend/yarn.lock ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Copy all frontend source code
 COPY frontend/src ./src
