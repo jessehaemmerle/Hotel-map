@@ -105,8 +105,8 @@ else
     print_error "❌ Missing service definitions"
 fi
 
-if grep -q "27012:27017" docker-compose.yml; then
-    print_success "✅ MongoDB port mapping (27012:27017) configured"
+if grep -q "27013:27017" docker-compose.yml; then
+    print_success "✅ MongoDB port mapping (27013:27017) configured"
 else
     print_error "❌ MongoDB port mapping issue"
 fi
