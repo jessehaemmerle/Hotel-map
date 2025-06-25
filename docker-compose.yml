@@ -30,8 +30,8 @@ services:
     environment:
       - MONGO_URL=mongodb://mongodb:27017
       - DB_NAME=hotel_mapping
-      - MAPBOX_ACCESS_TOKEN=${MAPBOX_ACCESS_TOKEN}
-      - JWT_SECRET=${JWT_SECRET:-your-secret-key-change-in-production}
+      - MAPBOX_ACCESS_TOKEN=${MAPBOX_ACCESS_TOKEN:-pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbWNibHBhYmQwMHIwMmpxcnp1cjhlYXNnIn0.t8cTZhYHQ5Bz3919BwJlLQ}
+      - JWT_SECRET=${JWT_SECRET:-a8f5f167f44f4964e6c998dee827110c}
     ports:
       - "8001:8001"
     depends_on:
