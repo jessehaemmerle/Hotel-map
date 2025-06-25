@@ -10,8 +10,8 @@ ARG REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoiamVzbWFudGhlcmVhbCIsImEiOiJjbGlvNm44OGUwcD
 # Copy package files to the correct location
 COPY frontend/package.json frontend/yarn.lock ./
 
-# Install dependencies (with fallback if lockfile is outdated)
-RUN yarn install --frozen-lockfile || (echo "Lockfile outdated, regenerating..." && rm yarn.lock && yarn install)
+# Clear yarn cache and install dependencies
+RUN yarn cache clean && yarn install --frozen-lockfile
 
 # Copy all frontend source code
 COPY frontend/src ./src
