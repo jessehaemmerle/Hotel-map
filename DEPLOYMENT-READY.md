@@ -5,9 +5,17 @@
 
 Your Hotel Mapping application has been successfully configured for Docker deployment on **Port 7070**.
 
+**DOCKER BUILD ISSUE FIXED**: Removed problematic `.env.docker` copy command from Dockerfile.backend. The backend now uses environment variables from docker-compose.yml directly.
+
 ## 🔧 FIXES COMPLETED
 
-### 1. **Missing Environment Files** ✅
+### 1. **Docker Build Configuration Fixed** ✅
+- **FIXED**: Removed `COPY backend/.env.docker .env` from Dockerfile.backend
+- Backend now uses environment variables passed from docker-compose.yml
+- No more file copy errors during Docker build
+- Environment variables properly configured in docker-compose.yml
+
+### 2. **Missing Environment Files** ✅
 - Created `/app/backend/.env` - Local development configuration
 - Created `/app/backend/.env.docker` - Docker container configuration  
 - Created `/app/frontend/.env` - Frontend configuration with Mapbox token
