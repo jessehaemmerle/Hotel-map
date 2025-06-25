@@ -183,11 +183,11 @@ frontend:
 
   - task: "Hotel management dashboard"
     implemented: true
-    working: false  # issues found
-    file: "HotelDashboard.js, HotelForm.js, HotelList.js"
+    working: "testing"
+    file: "HotelDashboard.js, HotelForm.js, HotelList.js, HotelDashboardFixed.js"
     stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "main"
@@ -204,6 +204,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Comprehensive testing after React downgrade to 18.2.0 shows that there are still issues with the application. The frontend is running on port 7070 and the backend API is accessible on port 8001, but the browser shows a 'Not Found' error when accessing the frontend. The backend API endpoints are working correctly when tested directly with curl. The issue appears to be with the frontend application not rendering properly in the browser, despite being accessible via curl. This suggests a potential issue with the React application's initialization or routing."
+        - working: "testing"
+          agent: "main"
+          comment: "INVESTIGATING DASHBOARD ISSUE: Created HotelDashboardFixed.js using inline styles instead of Tailwind CSS classes to eliminate potential CSS compilation issues. Suspected the issue might be related to Tailwind not compiling properly or class conflicts. The new version uses pure inline styles and removes dependencies on custom CSS classes like 'gradient-text' and 'status-online'. Testing this simplified approach to identify if the issue is CSS-related or a deeper React rendering problem."
 
   - task: "Customer search interface with filters"
     implemented: true
