@@ -59,7 +59,7 @@ command=/usr/bin/mongod --bind_ip_all --port 27013
 - ✅ **Frontend**: `curl http://localhost:7070` works
 
 ### **Docker Configuration:**
-- ✅ **Port Mapping**: `27012:27017` configured
+- ✅ **Port Mapping**: `27013:27017` configured
 - ✅ **Environment**: Backend connects via internal port 27017
 - ✅ **Validation**: All Docker config checks pass
 
