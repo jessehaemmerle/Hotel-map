@@ -198,6 +198,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Authentication works and redirects to dashboard, but the dashboard UI is not rendering correctly. Login with test account (test@example.com/password123) works, and API calls to /api/auth/login and /api/auth/me return 200 OK. The backend correctly returns user data and hotel data via API, but the dashboard UI components (Hotel Dashboard title, user name, Add New Hotel tab, Sign Out button) are not visible in the UI. The issue appears to be with the frontend rendering after successful authentication."
+        - working: false
+          agent: "testing"
+          comment: "Identified a potential compatibility issue: The project is using React 19 (a very recent version), which may have compatibility issues with other libraries. React 19 introduces significant changes to React's architecture and stricter dependency management. This could be causing rendering issues with the Hotel Dashboard components. Recommend downgrading to a more stable version of React (e.g., React 18) or ensuring all dependencies are compatible with React 19."
 
   - task: "Customer search interface with filters"
     implemented: true
