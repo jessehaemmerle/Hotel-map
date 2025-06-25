@@ -12,6 +12,8 @@ services:
     volumes:
       - mongodb_prod_data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - "27013:27017"
     networks:
       - hotel-network
     healthcheck:
