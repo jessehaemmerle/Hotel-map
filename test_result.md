@@ -222,10 +222,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Authentication system (register/login/JWT)"
-    - "Hotel CRUD operations with geospatial search"
-    - "Hotel search with filters (price, amenities, location)"
-  stuck_tasks: []
+    - "Hotel management dashboard"
+  stuck_tasks:
+    - "Hotel management dashboard"
   test_all: false
   test_priority: "high_first"
 
