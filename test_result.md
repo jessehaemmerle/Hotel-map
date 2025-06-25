@@ -183,11 +183,11 @@ frontend:
 
   - task: "Hotel management dashboard"
     implemented: true
-    working: "NA"  # needs testing
+    working: false  # issues found
     file: "HotelDashboard.js, HotelForm.js, HotelList.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
@@ -195,6 +195,9 @@ frontend:
         - working: "NA"
           agent: "testing"
           comment: "Unable to fully test the hotel management dashboard as it requires successful authentication. The login functionality works but we couldn't create a test account to access the dashboard."
+        - working: false
+          agent: "testing"
+          comment: "Authentication works and redirects to dashboard, but the dashboard UI is not rendering correctly. Login with test account (test@example.com/password123) works, and API calls to /api/auth/login and /api/auth/me return 200 OK. The backend correctly returns user data and hotel data via API, but the dashboard UI components (Hotel Dashboard title, user name, Add New Hotel tab, Sign Out button) are not visible in the UI. The issue appears to be with the frontend rendering after successful authentication."
 
   - task: "Customer search interface with filters"
     implemented: true
