@@ -22,6 +22,8 @@ function App() {
 function AppContent() {
   const { user, loading } = useAuth();
   
+  console.log('AppContent rendered, user:', user, 'loading:', loading);
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -42,5 +44,7 @@ function AppContent() {
     </Routes>
   );
 }
+
+export default App;
 
 export default App;
