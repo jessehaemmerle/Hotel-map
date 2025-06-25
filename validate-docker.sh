@@ -97,6 +97,6 @@ fi
 
 echo ""
 echo "🔗 Access URLs after deployment:"
-echo "   Frontend:    http://localhost:3000"
+echo "   Frontend:    http://localhost:7070"
 echo "   Backend API: http://localhost:8001"
 echo "   API Docs:    http://localhost:8001/docs"
