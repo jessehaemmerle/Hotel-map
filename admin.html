@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Admin – Hotelkarte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Admin-Dashboard</h1>
+      <nav>
+        <a href="index.html">Zur Karte</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container-wide">
+        <section id="admin-auth-section">
+          <h2 class="section-title">Admin-Login</h2>
+          <form id="admin-login-form">
+            <label for="admin-email">E-Mail</label>
+            <input type="email" id="admin-email" required />
+
+            <label for="admin-password">Passwort</label>
+            <input type="password" id="admin-password" required />
+
+            <button type="submit" class="btn">Login</button>
+          </form>
+        </section>
+
+        <section id="admin-dashboard-section" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 class="section-title">Hotelverwaltung</h2>
+            <button id="admin-logout-btn" class="btn secondary">Logout</button>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Ort</th>
+                <th>Status</th>
+                <th>Besitzer</th>
+                <th>Aktionen</th>
+              </tr>
+            </thead>
+            <tbody id="admin-hotels-tbody"></tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Projekt-Skripte -->
+    <script src="js/config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/adminDashboard.js"></script>
+  </body>
+</html>

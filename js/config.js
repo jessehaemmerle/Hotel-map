@@ -1,0 +1,5 @@
+// js/config.js
+// HIER DEINE SUPABASE-DATEN EINTRAGEN
+
+const SUPABASE_URL = "https://gsrrsjkdgpoldoqzzsqy.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzcnJzamtkZ3BvbGRvcXp6c3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2NDI3OTcsImV4cCI6MjA3OTIxODc5N30.E8JxmlAaYjFDxNz7Fp4PpexA0z989eWikXVIdOKsUYI";

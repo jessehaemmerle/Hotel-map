@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hotel-Dashboard – Hotelkarte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Hotel-Dashboard</h1>
+      <nav>
+        <a href="index.html">Zur Karte</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container-wide">
+        <section id="auth-section">
+          <h2 class="section-title">Login für Hotels</h2>
+
+          <div class="container-narrow" style="margin: 0; box-shadow: none">
+            <form id="login-form">
+              <h3>Einloggen</h3>
+              <label for="login-email">E-Mail</label>
+              <input type="email" id="login-email" required />
+
+              <label for="login-password">Passwort</label>
+              <input type="password" id="login-password" required />
+
+              <button type="submit" class="btn">Login</button>
+            </form>
+
+            <hr />
+
+            <form id="register-form">
+              <h3>Als Hotel registrieren</h3>
+              <p style="font-size: 0.85rem; color:#555;">
+                Nach der Registrierung kannst du dein Hotel anlegen. Ein Admin
+                schaltet es anschließend frei.
+              </p>
+
+              <label for="register-email">E-Mail</label>
+              <input type="email" id="register-email" required />
+
+              <label for="register-password">Passwort</label>
+              <input type="password" id="register-password" required />
+
+              <button type="submit" class="btn">Registrieren</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="dashboard-section" style="display: none">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 class="section-title">Meine Hotels</h2>
+            <button id="logout-btn" class="btn secondary">Logout</button>
+          </div>
+
+          <div id="my-hotels-list"></div>
+
+          <hr />
+
+          <h3>Hotel bearbeiten / neu anlegen</h3>
+          <form id="hotel-form">
+            <input type="hidden" id="hotel-id" />
+
+            <label for="hotel-name">Hotelname</label>
+            <input type="text" id="hotel-name" required />
+
+            <label for="hotel-description">Beschreibung</label>
+            <textarea id="hotel-description"></textarea>
+
+            <label for="hotel-country">Land</label>
+            <input type="text" id="hotel-country" required />
+
+            <label for="hotel-city">Stadt</label>
+            <input type="text" id="hotel-city" required />
+
+            <label for="hotel-address">Adresse</label>
+            <input type="text" id="hotel-address" />
+
+            <label for="hotel-latitude">Breitengrad (Latitude)</label>
+            <input type="number" id="hotel-latitude" step="0.000001" />
+
+            <label for="hotel-longitude">Längengrad (Longitude)</label>
+            <input type="number" id="hotel-longitude" step="0.000001" />
+
+            <label for="hotel-wifi-speed">
+              WLAN-Geschwindigkeit (Mbit/s, grob geschätzt)
+            </label>
+            <input type="number" id="hotel-wifi-speed" min="0" />
+
+            <label>
+              <input type="checkbox" id="hotel-workspace" />
+              Arbeitsplatz im Zimmer
+            </label>
+
+            <label>
+              <input type="checkbox" id="hotel-coworking-on-site" />
+              Coworking-Space im Hotel
+            </label>
+
+            <label>
+              <input type="checkbox" id="hotel-longstay" />
+              Langzeitaufenthalte möglich
+            </label>
+
+            <label for="hotel-longstay-min">
+              Mindestaufenthaltsdauer (Tage, falls Langzeitaufenthalt)
+            </label>
+            <input type="number" id="hotel-longstay-min" min="0" />
+
+            <label for="hotel-affiliate-url">Affiliate-Buchungslink</label>
+            <input
+              type="text"
+              id="hotel-affiliate-url"
+              placeholder="https://..."
+            />
+
+            <div class="button-row">
+              <button type="submit" class="btn">Speichern</button>
+              <button
+                type="button"
+                id="new-hotel-btn"
+                class="btn secondary"
+              >
+                Neues Hotel
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Projekt-Skripte -->
+    <script src="js/config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/hotelDashboard.js"></script>
+  </body>
+</html>
