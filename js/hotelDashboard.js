@@ -2,13 +2,14 @@
 
 let currentUser = null;
 let currentProfile = null;
+let myHotelsRaw = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   initHotelDashboard();
 });
 
 async function initHotelDashboard() {
-  // Event-Listener
+  // Event-Listener Auth & Formular
   document
     .getElementById("login-form")
     .addEventListener("submit", handleLogin);
@@ -25,6 +26,25 @@ async function initHotelDashboard() {
     .getElementById("new-hotel-btn")
     .addEventListener("click", resetHotelForm);
 
+  // Filter im Dashboard (Vorschau wie öffentliche Suche)
+  const dashFilterForm = document.getElementById("dashboard-filter-form");
+  if (dashFilterForm) {
+    dashFilterForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      applyAndRenderMyHotelFilters();
+    });
+  }
+
+  const dashFilterResetBtn = document.getElementById(
+    "dashboard-filter-reset-btn"
+  );
+  if (dashFilterResetBtn) {
+    dashFilterResetBtn.addEventListener("click", () => {
+      resetDashboardFilters();
+      applyAndRenderMyHotelFilters();
+    });
+  }
+
   // Beim Laden direkt prüfen, ob schon eingeloggt
   await checkAuthAndLoad();
 }
@@ -37,10 +57,11 @@ async function checkAuthAndLoad() {
   }
 
   currentProfile = await getCurrentUserProfile();
-  if (!currentProfile || (currentProfile.role !== "hotel" && currentProfile.role !== "admin")) {
-    alert(
-      "Ihr Account hat keine Hotel-Rolle. Bitte wende dich an den Admin."
-    );
+  if (
+    !currentProfile ||
+    (currentProfile.role !== "hotel" && currentProfile.role !== "admin")
+  ) {
+    alert("Ihr Account hat keine Hotel-Rolle. Bitte wende dich an den Admin.");
     await supabaseClient.auth.signOut();
     showAuthSection();
     return;
@@ -95,7 +116,6 @@ async function handleRegister(event) {
 
   const user = data.user;
   if (user) {
-    // Profil als Hotel anlegen
     const { error: profileError } = await supabaseClient
       .from("profiles")
       .insert([{ id: user.id, role: "hotel" }]);
@@ -125,7 +145,9 @@ async function loadMyHotels() {
     return;
   }
 
-  renderMyHotelsList(data || []);
+  myHotelsRaw = data || [];
+  const hotelsToRender = applyMyHotelFilters();
+  renderMyHotelsList(hotelsToRender);
 }
 
 function renderMyHotelsList(hotels) {
@@ -134,7 +156,7 @@ function renderMyHotelsList(hotels) {
 
   if (!hotels.length) {
     container.innerHTML =
-      "<p>Du hast noch keine Hotels angelegt. Nutze das Formular unten.</p>";
+      "<p>Du hast keine Hotels, die auf diese Filter passen. Passe ggf. die Filter an oder lege ein neues Hotel an.</p>";
     return;
   }
 
@@ -142,11 +164,33 @@ function renderMyHotelsList(hotels) {
     const div = document.createElement("div");
     div.className = "hotel-list-item";
 
+    const badges = [];
+    if (hotel.wifi_speed_mbps != null) {
+      badges.push("WLAN ~ " + escapeHtml(hotel.wifi_speed_mbps) + " Mbit/s");
+    }
+    if (hotel.workspace_in_room) badges.push("Arbeitsplatz im Zimmer");
+    if (hotel.coworking_on_site) badges.push("Coworking im Hotel");
+    if (hotel.coworking_nearby) badges.push("Coworking in der Nähe");
+    if (hotel.long_stay_possible) {
+      if (hotel.long_stay_min_nights != null) {
+        badges.push(
+          "Langzeit ab " + escapeHtml(hotel.long_stay_min_nights) + " Tagen"
+        );
+      } else {
+        badges.push("Langzeitaufenthalt");
+      }
+    }
+
     div.innerHTML = `
       <h3>${escapeHtml(hotel.name || "")}</h3>
       <div>${escapeHtml(hotel.city || "")}, ${escapeHtml(
       hotel.country || ""
     )}</div>
+      <div style="margin:4px 0;">
+        ${badges
+          .map((b) => `<span class="badge">${escapeHtml(b)}</span>`)
+          .join(" ")}
+      </div>
       <div style="font-size:0.8rem; color:#555;">
         Status: <strong>${escapeHtml(hotel.status || "")}</strong>
       </div>
@@ -157,6 +201,14 @@ function renderMyHotelsList(hotels) {
         <button class="btn secondary" data-hotel-id="${hotel.id}">
           Bearbeiten
         </button>
+        <a
+          class="btn"
+          href="index.html?hotelId=${hotel.id}"
+          target="_blank"
+          rel="noopener"
+        >
+          Vorschau
+        </a>
       </div>
     `;
 
@@ -172,6 +224,81 @@ function renderMyHotelsList(hotels) {
 }
 
 /**
+ * Filter wie in der öffentlichen Suche – angewendet auf eigene Hotels.
+ */
+function applyMyHotelFilters() {
+  if (!Array.isArray(myHotelsRaw)) return [];
+
+  const wifiMinStr =
+    document.getElementById("dash-filter-wifi-min")?.value || "";
+  const wifiMin = wifiMinStr ? parseInt(wifiMinStr, 10) : null;
+
+  const onlyWorkspace =
+    document.getElementById("dash-filter-workspace")?.checked || false;
+  const coworkingOnsite =
+    document.getElementById("dash-filter-coworking-onsite")?.checked || false;
+  const coworkingNearby =
+    document.getElementById("dash-filter-coworking-nearby")?.checked || false;
+  const onlyLongstay =
+    document.getElementById("dash-filter-longstay")?.checked || false;
+
+  const longstayMaxStr =
+    document.getElementById("dash-filter-longstay-max")?.value.trim() || "";
+  const longstayMax = longstayMaxStr ? parseInt(longstayMaxStr, 10) : null;
+
+  return myHotelsRaw.filter((hotel) => {
+    if (wifiMin !== null && !Number.isNaN(wifiMin)) {
+      const speed = hotel.wifi_speed_mbps;
+      if (speed == null || speed < wifiMin) return false;
+    }
+
+    if (onlyWorkspace && !hotel.workspace_in_room) return false;
+
+    if (coworkingOnsite && coworkingNearby) {
+      if (!hotel.coworking_on_site && !hotel.coworking_nearby) return false;
+    } else if (coworkingOnsite) {
+      if (!hotel.coworking_on_site) return false;
+    } else if (coworkingNearby) {
+      if (!hotel.coworking_nearby) return false;
+    }
+
+    if (onlyLongstay) {
+      if (!hotel.long_stay_possible) return false;
+      if (longstayMax !== null && !Number.isNaN(longstayMax)) {
+        const minNights = hotel.long_stay_min_nights;
+        if (minNights != null && minNights > longstayMax) return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+function applyAndRenderMyHotelFilters() {
+  const filtered = applyMyHotelFilters();
+  renderMyHotelsList(filtered);
+}
+
+function resetDashboardFilters() {
+  const wifiSelect = document.getElementById("dash-filter-wifi-min");
+  if (wifiSelect) wifiSelect.value = "";
+
+  const idsToUncheck = [
+    "dash-filter-workspace",
+    "dash-filter-coworking-onsite",
+    "dash-filter-coworking-nearby",
+    "dash-filter-longstay",
+  ];
+  idsToUncheck.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.checked = false;
+  });
+
+  const longstayMaxInput = document.getElementById("dash-filter-longstay-max");
+  if (longstayMaxInput) longstayMaxInput.value = "";
+}
+
+/**
  * Statistiken (Views & Affiliate-Klicks) für ein Hotel laden
  */
 async function loadStatsForHotel(hotelId) {
@@ -179,7 +306,6 @@ async function loadStatsForHotel(hotelId) {
   if (!idNum) return;
 
   try {
-    // Gesamtanzahl Aufrufe (event_type = 'view')
     const {
       count: viewsCount,
       error: viewsError,
@@ -193,7 +319,6 @@ async function loadStatsForHotel(hotelId) {
       console.error("Fehler beim Laden der Views:", viewsError.message);
     }
 
-    // Gesamtanzahl Buchungsklicks (event_type = 'affiliate_click')
     const {
       count: clicksCount,
       error: clicksError,
@@ -239,6 +364,10 @@ function fillHotelForm(hotel) {
     !!hotel.workspace_in_room;
   document.getElementById("hotel-coworking-on-site").checked =
     !!hotel.coworking_on_site;
+  const nearbyEl = document.getElementById("hotel-coworking-nearby");
+  if (nearbyEl) {
+    nearbyEl.checked = !!hotel.coworking_nearby;
+  }
   document.getElementById("hotel-longstay").checked =
     !!hotel.long_stay_possible;
   document.getElementById("hotel-longstay-min").value =
@@ -279,6 +408,8 @@ async function handleHotelSave(event) {
   const coworkingOnSite = document.getElementById(
     "hotel-coworking-on-site"
   ).checked;
+  const nearbyEl = document.getElementById("hotel-coworking-nearby");
+  const coworkingNearby = nearbyEl ? nearbyEl.checked : false;
   const longstay = document.getElementById("hotel-longstay").checked;
   const longstayMinStr =
     document.getElementById("hotel-longstay-min").value.trim() || null;
@@ -298,6 +429,7 @@ async function handleHotelSave(event) {
     wifi_speed_mbps: wifiSpeedStr ? parseInt(wifiSpeedStr, 10) : null,
     workspace_in_room: workspace,
     coworking_on_site: coworkingOnSite,
+    coworking_nearby: coworkingNearby,
     long_stay_possible: longstay,
     long_stay_min_nights: longstayMinStr ? parseInt(longstayMinStr, 10) : null,
     affiliate_url: affiliateUrl || null,
@@ -305,14 +437,12 @@ async function handleHotelSave(event) {
 
   let error;
   if (id) {
-    // Update
     const result = await supabaseClient
       .from("hotels")
       .update(payload)
       .eq("id", id);
     error = result.error;
   } else {
-    // Neuer Eintrag, Status initial "pending"
     payload.status = "pending";
     const result = await supabaseClient.from("hotels").insert([payload]);
     error = result.error;

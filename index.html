@@ -2,77 +2,162 @@
 <html lang="de">
   <head>
     <meta charset="utf-8" />
-    <title>Hotelkarte – Digitale Nomaden</title>
+    <title>Hotelkarte – Stay · Work · Explore</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <link rel="stylesheet" href="css/styles.css" />
-
-    <!-- Leaflet CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
   </head>
   <body>
     <header>
-      <h1>Hotelkarte – Digitale Nomaden</h1>
+      <div class="brand">
+        <div class="brand-mark">
+          <span>HK</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Hotelkarte</div>
+          <div class="brand-tagline">Stay · Work · Explore</div>
+        </div>
+      </div>
       <nav>
-        <a href="index.html">Karte</a>
+        <a href="map.html">Karte</a>
         <a href="hotel.html">Für Hotels</a>
       </nav>
     </header>
 
     <main>
-      <div class="app-layout">
-        <aside class="sidebar">
-          <h2>Suche & Filter</h2>
-          <form id="filter-form">
-            <label for="filter-city">Stadt</label>
-            <input
-              type="text"
-              id="filter-city"
-              placeholder="z.B. Berlin"
-              autocomplete="off"
-            />
+      <!-- HERO-BEREICH -->
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-main">
+            <p class="hero-pill">Für digitale Nomaden &amp; Remote-Hotels</p>
+            <h1 class="hero-title">
+              Finde Hotels, die Remote Work wirklich ernst nehmen.
+            </h1>
+            <p class="hero-subtitle">
+              Hotelkarte zeigt dir Unterkünfte mit schnellem WLAN, echten
+              Arbeitsplätzen und Coworking – kuratiert für Menschen, die
+              unterwegs produktiv bleiben wollen.
+            </p>
 
-            <label>
-              <input type="checkbox" id="filter-workspace" />
-              Arbeitsplatz im Zimmer
-            </label>
-
-            <label>
-              <input type="checkbox" id="filter-coworking" />
-              Coworking im/nahe Hotel
-            </label>
-
-            <label>
-              <input type="checkbox" id="filter-longstay" />
-              Langzeitaufenthalte möglich
-            </label>
-
-            <div class="button-row">
-              <button type="submit" class="btn">Filter anwenden</button>
-              <button type="button" id="reset-filter-btn" class="btn secondary">
-                Zurücksetzen
-              </button>
+            <div class="hero-actions">
+              <a href="map.html" class="btn">Karte öffnen</a>
+              <a href="hotel.html" class="btn secondary">Für Hotels</a>
             </div>
-          </form>
 
-          <h2>Hotels</h2>
-          <div id="hotel-list"></div>
-        </aside>
+            <div class="hero-meta">
+              <span>📶 Filter nach WLAN-Speed</span>
+              <span>💻 Workspace &amp; Coworking</span>
+              <span>📅 Langzeitaufenthalte</span>
+            </div>
+          </div>
 
-        <div id="map"></div>
-      </div>
+          <div class="hero-side">
+            <div class="hero-card">
+              <p class="hero-card-title">Suche einmal, arbeite überall.</p>
+              <p class="hero-card-text">
+                Nutze die Map für Remote-freundliche Hotels, tracke Klicks und
+                Sichtbarkeit deiner Einträge und finde Orte, an denen Arbeit
+                sich wie Reisen anfühlt.
+              </p>
+              <ul class="hero-card-list">
+                <li>Nomad-Karte mit Work-Filtern</li>
+                <li>Stats für Hotels (Views &amp; Klicks)</li>
+                <li>Moderierte Einträge für Qualität</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WARUM HOTELKARTE -->
+      <section class="section">
+        <h2 class="section-title">Warum Hotelkarte?</h2>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Für digitale Nomaden</h3>
+            <p>
+              Finde schnell Unterkünfte mit stabilem Internet, ruhigen
+              Workspaces und Community-Anschluss – ohne dich durch hunderte
+              Bewertungen zu kämpfen.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3>Für Remote-Teams</h3>
+            <p>
+              Plane Workations oder Offsites mit Hotels, die produktive Setups
+              bieten – von Meetingräumen bis Coworking-Spaces in der Nähe.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3>Für Hotels</h3>
+            <p>
+              Positioniere dich sichtbar als Remote-friendly, analysiere
+              Interesse über Klicks und erscheine bei relevanten Suchen auf der
+              Karte.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- SO FUNKTIONIERT'S -->
+      <section class="section">
+        <h2 class="section-title">So funktioniert’s</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <span class="step-number">1</span>
+            <h3>Filter setzen</h3>
+            <p>
+              Wähle Stadt, WLAN-Speed, Workspace-Optionen und Langzeit-Aufenthalt –
+              die Karte zeigt dir passende Hotels.
+            </p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">2</span>
+            <h3>Hotel checken</h3>
+            <p>
+              Öffne Details direkt auf der Karte: Beschreibung, Work-Features
+              und Affiliate-Buchungslink.
+            </p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">3</span>
+            <h3>Buchen &amp; losarbeiten</h3>
+            <p>
+              Die Buchung läuft wie gewohnt über Partner – du reist an und kannst
+              sofort produktiv loslegen.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA-ABSCHLUSS -->
+      <section class="section section-cta">
+        <div class="section-cta-inner">
+          <div>
+            <h2 class="section-title">Bereit für dein nächstes Remote-Camp?</h2>
+            <p>
+              Starte mit der Karte oder trage dein Hotel ein – Hotelkarte wächst
+              mit jeder Location, die Remote Work ernst nimmt.
+            </p>
+          </div>
+          <div class="button-row">
+            <a href="map.html" class="btn">Karte öffnen</a>
+            <a href="hotel.html" class="btn secondary">Hotel eintragen</a>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Projekt-Skripte -->
-    <script src="js/config.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/map.js"></script>
+    <footer class="site-footer">
+      <small>
+        © <span id="year"></span> Hotelkarte. Made for people who work from anywhere.
+      </small>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent =
+        new Date().getFullYear();
+    </script>
   </body>
 </html>

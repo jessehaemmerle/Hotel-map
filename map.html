@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hotelkarte – Digitale Nomaden</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <div class="brand-mark">
+          <span>HK</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Hotelkarte</div>
+          <div class="brand-tagline">Stay · Work · Explore</div>
+        </div>
+      </div>
+      <nav>
+        <a href="index.html">Karte</a>
+        <a href="hotel.html">Für Hotels</a>
+      </nav>
+    </header>
+
+
+    <main>
+      <div class="app-layout">
+        <aside class="sidebar">
+          <h2>Suche &amp; Filter</h2>
+          <form id="filter-form">
+            <label for="filter-city">Stadt</label>
+            <input
+              type="text"
+              id="filter-city"
+              placeholder="z.B. Berlin"
+              autocomplete="off"
+            />
+
+            <label for="filter-wifi-min">Mind. WLAN-Geschwindigkeit</label>
+            <select id="filter-wifi-min">
+              <option value="">egal</option>
+              <option value="10">ab 10 Mbit/s</option>
+              <option value="25">ab 25 Mbit/s</option>
+              <option value="50">ab 50 Mbit/s</option>
+              <option value="100">ab 100 Mbit/s</option>
+            </select>
+
+            <label>
+              <input type="checkbox" id="filter-workspace" />
+              Arbeitsplatz im Zimmer
+            </label>
+
+            <label>
+              <input type="checkbox" id="filter-coworking-onsite" />
+              Coworking im Hotel
+            </label>
+
+            <label>
+              <input type="checkbox" id="filter-coworking-nearby" />
+              Coworking in der Nähe
+            </label>
+
+            <label>
+              <input type="checkbox" id="filter-longstay" />
+              Langzeitaufenthalte möglich
+            </label>
+
+            <label for="filter-longstay-max">
+              Maximale Mindestaufenthaltsdauer (Tage)
+            </label>
+            <input
+              type="number"
+              id="filter-longstay-max"
+              min="1"
+              placeholder="z.B. 14"
+            />
+
+            <div class="button-row">
+              <button type="submit" class="btn">Filter anwenden</button>
+              <button type="button" id="reset-filter-btn" class="btn secondary">
+                Zurücksetzen
+              </button>
+            </div>
+          </form>
+
+          <h2>Hotels</h2>
+          <div id="hotel-list"></div>
+        </aside>
+
+        <div id="map"></div>
+      </div>
+    </main>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Projekt-Skripte -->
+    <script src="js/config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/map.js"></script>
+  </body>
+</html>

@@ -9,14 +9,25 @@
   </head>
   <body>
     <header>
-      <h1>Hotel-Dashboard</h1>
+      <div class="brand">
+        <div class="brand-mark">
+          <span>HK</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Hotelkarte</div>
+          <div class="brand-tagline">Dashboard · Für Hotels</div>
+        </div>
+      </div>
       <nav>
+        <span class="header-context">Hotel-Portal</span>
         <a href="index.html">Zur Karte</a>
       </nav>
     </header>
 
+
     <main>
       <div class="container-wide">
+        <!-- AUTH-BEREICH -->
         <section id="auth-section">
           <h2 class="section-title">Login für Hotels</h2>
 
@@ -52,54 +63,188 @@
           </div>
         </section>
 
+        <!-- DASHBOARD-BEREICH -->
         <section id="dashboard-section" style="display: none">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              align-items:center;
+            "
+          >
             <h2 class="section-title">Meine Hotels</h2>
             <button id="logout-btn" class="btn secondary">Logout</button>
           </div>
 
+          <!-- FILTER-BEREICH (Vorschau wie öffentliche Suche) -->
+          <div
+            class="container-narrow"
+            style="margin: 12px 0; box-shadow: none; background:#f9fafb;"
+          >
+            <h3>Ansicht filtern (wie öffentliche Suche)</h3>
+            <p class="help-text">
+              Diese Filter wirken nur auf die Liste unten – so kannst du testen,
+              wie dein Hotel bei bestimmten Kriterien gefunden werden würde.
+            </p>
+
+            <form id="dashboard-filter-form">
+              <label for="dash-filter-wifi-min">Mind. WLAN-Geschwindigkeit</label>
+              <select id="dash-filter-wifi-min">
+                <option value="">egal</option>
+                <option value="10">ab 10 Mbit/s</option>
+                <option value="25">ab 25 Mbit/s</option>
+                <option value="50">ab 50 Mbit/s</option>
+                <option value="100">ab 100 Mbit/s</option>
+              </select>
+
+              <label>
+                <input type="checkbox" id="dash-filter-workspace" />
+                Arbeitsplatz im Zimmer
+              </label>
+
+              <label>
+                <input type="checkbox" id="dash-filter-coworking-onsite" />
+                Coworking im Hotel
+              </label>
+
+              <label>
+                <input type="checkbox" id="dash-filter-coworking-nearby" />
+                Coworking in der Nähe
+              </label>
+
+              <label>
+                <input type="checkbox" id="dash-filter-longstay" />
+                Langzeitaufenthalte möglich
+              </label>
+
+              <label for="dash-filter-longstay-max">
+                Maximale Mindestaufenthaltsdauer (Tage)
+              </label>
+              <input
+                type="number"
+                id="dash-filter-longstay-max"
+                min="1"
+                placeholder="z.B. 14"
+              />
+
+              <div class="button-row">
+                <button type="submit" class="btn">Filter anwenden</button>
+                <button
+                  type="button"
+                  id="dashboard-filter-reset-btn"
+                  class="btn secondary"
+                >
+                  Zurücksetzen
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Liste der eigenen Hotels mit Vorschau & Stats -->
           <div id="my-hotels-list"></div>
 
           <hr />
 
+          <!-- Formular: Hotel bearbeiten / neu anlegen -->
           <h3>Hotel bearbeiten / neu anlegen</h3>
+          <p class="help-text">
+            Fülle die Felder so gut wie möglich aus. Du kannst Angaben später
+            jederzeit ändern, solange das Hotel nicht freigeschaltet ist.
+          </p>
+
           <form id="hotel-form">
             <input type="hidden" id="hotel-id" />
 
+            <!-- Grunddaten -->
             <label for="hotel-name">Hotelname</label>
-            <input type="text" id="hotel-name" required />
+            <input
+              type="text"
+              id="hotel-name"
+              required
+              placeholder="z.B. Nomad Loft Berlin"
+            />
 
             <label for="hotel-description">Beschreibung</label>
-            <textarea id="hotel-description"></textarea>
+            <textarea
+              id="hotel-description"
+              placeholder="Beschreibe kurz, warum dein Hotel ideal für Remote Work / digitale Nomaden ist."
+            ></textarea>
 
             <label for="hotel-country">Land</label>
-            <input type="text" id="hotel-country" required />
+            <input
+              type="text"
+              id="hotel-country"
+              required
+              placeholder="z.B. Deutschland"
+            />
 
             <label for="hotel-city">Stadt</label>
-            <input type="text" id="hotel-city" required />
+            <input
+              type="text"
+              id="hotel-city"
+              required
+              placeholder="z.B. Berlin"
+            />
 
             <label for="hotel-address">Adresse</label>
-            <input type="text" id="hotel-address" />
+            <input
+              type="text"
+              id="hotel-address"
+              placeholder="z.B. Musterstraße 1"
+            />
 
+            <!-- Koordinaten mit Hilfetext -->
             <label for="hotel-latitude">Breitengrad (Latitude)</label>
-            <input type="number" id="hotel-latitude" step="0.000001" />
+            <input
+              type="number"
+              id="hotel-latitude"
+              step="0.000001"
+              placeholder="z.B. 52.520008"
+            />
 
             <label for="hotel-longitude">Längengrad (Longitude)</label>
-            <input type="number" id="hotel-longitude" step="0.000001" />
+            <input
+              type="number"
+              id="hotel-longitude"
+              step="0.000001"
+              placeholder="z.B. 13.404954"
+            />
 
-            <label for="hotel-wifi-speed">
-              WLAN-Geschwindigkeit (Mbit/s, grob geschätzt)
-            </label>
-            <input type="number" id="hotel-wifi-speed" min="0" />
+            <p class="help-text">
+              Tipp: Öffne dein Hotel in Google Maps, Rechtsklick auf den
+              Standort → „Was ist hier?“ – dort werden dir die Koordinaten
+              angezeigt, die du hier eintragen kannst.
+            </p>
 
+            <!-- WLAN als Kategorie -->
+            <label for="hotel-wifi-speed">WLAN-Geschwindigkeit (Kategorie)</label>
+            <select id="hotel-wifi-speed">
+              <option value="">Bitte wählen</option>
+              <option value="10">Basis (bis ca. 10 Mbit/s)</option>
+              <option value="25">OK (ca. 10–25 Mbit/s)</option>
+              <option value="50">Gut (ca. 25–50 Mbit/s)</option>
+              <option value="100">Schnell (50–100+ Mbit/s)</option>
+            </select>
+            <p class="help-text">
+              Wenn du die exakte Geschwindigkeit nicht kennst, wähle die
+              passende Kategorie nach Gefühl oder basierend auf einem
+              Speedtest-Ergebnis.
+            </p>
+
+            <!-- Remote-Work-Features -->
             <label>
               <input type="checkbox" id="hotel-workspace" />
-              Arbeitsplatz im Zimmer
+              Arbeitsplatz im Zimmer (Schreibtisch + Stuhl)
             </label>
 
             <label>
               <input type="checkbox" id="hotel-coworking-on-site" />
-              Coworking-Space im Hotel
+              Coworking-Space im Hotel / Gebäude
+            </label>
+
+            <label>
+              <input type="checkbox" id="hotel-coworking-nearby" />
+              Coworking-Space in der Nähe (z.B. fußläufig erreichbar)
             </label>
 
             <label>
@@ -110,22 +255,34 @@
             <label for="hotel-longstay-min">
               Mindestaufenthaltsdauer (Tage, falls Langzeitaufenthalt)
             </label>
-            <input type="number" id="hotel-longstay-min" min="0" />
+            <input
+              type="number"
+              id="hotel-longstay-min"
+              min="0"
+              placeholder="z.B. 14 oder 28"
+            />
+            <p class="help-text">
+              Beispiel: 14 = ab zwei Wochen, 28 = ab vier Wochen. Wenn du
+              Langzeitgäste ohne Mindestdauer akzeptierst, kannst du 0
+              eintragen.
+            </p>
 
+            <!-- Affiliate-Link -->
             <label for="hotel-affiliate-url">Affiliate-Buchungslink</label>
             <input
               type="text"
               id="hotel-affiliate-url"
-              placeholder="https://..."
+              placeholder="https://... (z.B. Booking, Website mit Tracking-Link)"
             />
+            <p class="help-text">
+              Dies ist der Link, auf den Nutzer bei „Jetzt buchen“ weitergeleitet
+              werden. Bitte den vollständigen Affiliate-Link mit allen
+              Tracking-Parametern einfügen.
+            </p>
 
             <div class="button-row">
               <button type="submit" class="btn">Speichern</button>
-              <button
-                type="button"
-                id="new-hotel-btn"
-                class="btn secondary"
-              >
+              <button type="button" id="new-hotel-btn" class="btn secondary">
                 Neues Hotel
               </button>
             </div>
