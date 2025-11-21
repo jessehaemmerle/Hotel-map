@@ -203,7 +203,7 @@ function renderMyHotelsList(hotels) {
         </button>
         <a
           class="btn"
-          href="index.html?hotelId=${hotel.id}"
+          href="map.html?hotelId=${hotel.id}"
           target="_blank"
           rel="noopener"
         >
