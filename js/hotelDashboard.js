@@ -93,7 +93,6 @@ async function handleRegister(event) {
     return;
   }
 
-  // User kann je nach Supabase-Einstellungen bestätigt werden müssen.
   const user = data.user;
   if (user) {
     // Profil als Hotel anlegen
@@ -151,6 +150,9 @@ function renderMyHotelsList(hotels) {
       <div style="font-size:0.8rem; color:#555;">
         Status: <strong>${escapeHtml(hotel.status || "")}</strong>
       </div>
+      <div id="hotel-stats-${hotel.id}" style="font-size:0.8rem; color:#555; margin-top:4px;">
+        Statistiken werden geladen...
+      </div>
       <div class="button-row" style="margin-top:6px;">
         <button class="btn secondary" data-hotel-id="${hotel.id}">
           Bearbeiten
@@ -163,7 +165,60 @@ function renderMyHotelsList(hotels) {
       .addEventListener("click", () => fillHotelForm(hotel));
 
     container.appendChild(div);
+
+    // Statistiken für dieses Hotel laden
+    loadStatsForHotel(hotel.id);
   });
+}
+
+/**
+ * Statistiken (Views & Affiliate-Klicks) für ein Hotel laden
+ */
+async function loadStatsForHotel(hotelId) {
+  const idNum = parseInt(hotelId, 10);
+  if (!idNum) return;
+
+  try {
+    // Gesamtanzahl Aufrufe (event_type = 'view')
+    const {
+      count: viewsCount,
+      error: viewsError,
+    } = await supabaseClient
+      .from("hotel_events")
+      .select("*", { count: "exact", head: true })
+      .eq("hotel_id", idNum)
+      .eq("event_type", "view");
+
+    if (viewsError) {
+      console.error("Fehler beim Laden der Views:", viewsError.message);
+    }
+
+    // Gesamtanzahl Buchungsklicks (event_type = 'affiliate_click')
+    const {
+      count: clicksCount,
+      error: clicksError,
+    } = await supabaseClient
+      .from("hotel_events")
+      .select("*", { count: "exact", head: true })
+      .eq("hotel_id", idNum)
+      .eq("event_type", "affiliate_click");
+
+    if (clicksError) {
+      console.error(
+        "Fehler beim Laden der Affiliate-Klicks:",
+        clicksError.message
+      );
+    }
+
+    const statsEl = document.getElementById(`hotel-stats-${idNum}`);
+    if (statsEl) {
+      const v = viewsCount ?? 0;
+      const c = clicksCount ?? 0;
+      statsEl.textContent = `Aufrufe: ${v} · Buchungsklicks: ${c}`;
+    }
+  } catch (err) {
+    console.error("Fehler beim Laden der Hotel-Statistiken:", err);
+  }
 }
 
 function fillHotelForm(hotel) {

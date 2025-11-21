@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
     focusHotelOnMap(hotelId);
   });
 
+  // Globaler Click-Handler für alle Affiliate-Links (Karte + Liste)
+  document.addEventListener("click", handleGlobalAffiliateLinkClick);
+
   loadHotels();
 });
 
@@ -103,9 +106,11 @@ function renderHotelsOnMap(hotels) {
       }
       ${
         hotel.affiliate_url
-          ? `<br/><a href="${encodeURI(
-              hotel.affiliate_url
-            )}" target="_blank" rel="noopener">Jetzt buchen</a>`
+          ? `<br/><a
+                href="${encodeURI(hotel.affiliate_url)}"
+                data-affiliate-link="1"
+                data-hotel-id="${hotel.id}"
+             >Jetzt buchen</a>`
           : ""
       }
     `;
@@ -161,7 +166,9 @@ function renderHotelList(hotels) {
         </button>
         ${
           hotel.affiliate_url
-            ? `<a class="btn" target="_blank" rel="noopener"
+            ? `<a class="btn"
+                  data-affiliate-link="1"
+                  data-hotel-id="${hotel.id}"
                   href="${encodeURI(hotel.affiliate_url)}">Jetzt buchen</a>`
             : ""
         }
@@ -178,6 +185,52 @@ function focusHotelOnMap(hotelId) {
   const latLng = marker.getLatLng();
   map.setView(latLng, 14);
   marker.openPopup();
+
+  // View-Event tracken
+  trackHotelEvent(hotelId, "view");
+}
+
+/**
+ * Globaler Click-Handler für Links mit data-affiliate-link
+ * – trackt Klick & öffnet Link in neuem Tab
+ */
+function handleGlobalAffiliateLinkClick(event) {
+  const link = event.target.closest("a[data-affiliate-link]");
+  if (!link) return;
+
+  event.preventDefault();
+
+  const hotelId = link.getAttribute("data-hotel-id");
+  const url = link.getAttribute("href");
+
+  if (hotelId) {
+    trackHotelEvent(hotelId, "affiliate_click");
+  }
+
+  if (url) {
+    window.open(url, "_blank", "noopener");
+  }
+}
+
+/**
+ * Tracking-Event an Supabase senden.
+ * eventType: 'view' | 'affiliate_click'
+ */
+async function trackHotelEvent(hotelId, eventType) {
+  const idNum = parseInt(hotelId, 10);
+  if (!idNum || !eventType) return;
+
+  try {
+    const { error } = await supabaseClient
+      .from("hotel_events")
+      .insert([{ hotel_id: idNum, event_type: eventType }]);
+
+    if (error) {
+      console.error("Fehler beim Tracking-Event:", error.message);
+    }
+  } catch (err) {
+    console.error("Fehler beim Senden des Tracking-Events:", err);
+  }
 }
 
 // einfache HTML-Escape-Funktion
